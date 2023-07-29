@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # Bash script that uses ssh to connect to your server using the private
 # key ~/.ssh/school with the user ubuntu
-ssh -i ~/.ssh/school -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ubuntu@34.239.254.176
+ssh -i ~/.ssh/school -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null" ubuntu@100.25.168.28
