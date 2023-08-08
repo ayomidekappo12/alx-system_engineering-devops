@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ Module for storing the count_words function. """
-
 import requests
 
 
@@ -35,3 +34,7 @@ def count_words(subreddit, word_list):
     for word, count in sorted_word_count:
         if count > 0:
             print(f'{word}: {count * word_list.count(word)}')
+
+subreddit = "programming"
+word_list = ["python", "java", "javascript"]
+count_words(subreddit, word_list)
