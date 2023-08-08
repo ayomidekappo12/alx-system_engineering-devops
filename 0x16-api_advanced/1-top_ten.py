@@ -12,9 +12,10 @@ def top_ten(subreddit):
     Function that queries the Reddit API
     - If not a valid subreddit, print None.
     """
+    headers = {"User-Agent": "Custom"}
     req = requests.get(
         "https://www.reddit.com/r/{}/hot.json".format(subreddit),
-        header={"User-Agent": "Custom"},
+        headers=headers,
         params={"limit": 10},
     )
 
@@ -25,3 +26,4 @@ def top_ten(subreddit):
             print(title)
     else:
         print(None)
+
