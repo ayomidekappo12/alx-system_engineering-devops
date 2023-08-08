@@ -9,30 +9,33 @@ the function returns None.
 import requests
 
 
-def recurse(subreddit, hot_list=[], after=""):
+def recurse(subreddit, hot_list=None, after=None):
     """
     Queries the Reddit API and returns
     a list containing the titles of all hot articles for a given subreddit.
 
-    - If not a valid subreddit, return None.
+    If not a valid subreddit, return None.
     """
+    if hot_list is None:
+        hot_list = []
 
-    req = requests.get(
-        "https://www.reddit.com/r/{}/hot.json".format(subreddit),
-        header={"User-Agent": "Custom"},
-        params={"after": after},
-    )
+    headers = {"User-Agent": "Custom"}
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    params = {"after": after} if after else {}
+
+    req = requests.get(url, headers=headers, params=params)
 
     if req.status_code == 200:
-        for get_data in req.json().get("data").get("children"):
-            dat = get_data.get("data")
-            title = dat.get("title")
-            hot_list.append(title)
-        after = req.json().get("data").get("after")
-
-        if after is None:
-            return hot_list
-        else:
-            return recurse(subreddit, hot_list, after)
-    else:
-        return None
+        data = req.json().get("data")
+        if data:
+            children = data.get("children", [])
+            for get_data in children:
+                dat = get_data.get("data")
+                title = dat.get("title")
+                hot_list.append(title)
+            after = data.get("after")
+            if after:
+                return recurse(subreddit, hot_list, after)
+            else:
+                return hot_list
+    return None
